@@ -1,42 +1,38 @@
-import { StyleSheet, Text, TouchableOpacity } from 'react-native'
+import { StyleSheet, Text} from 'react-native'
 import React from 'react'
+import { Button } from 'react-native-paper';
 
-const Button = ({ onPress, label, variation, buttonStyle, textStyle }) => {
+const DefaultButton = ({ ...props }) => {
+
     return (
-        <TouchableOpacity style={[buttonStyle, styles.button, variation === 'secondary' ? styles.buttonSecondary : styles.buttonPrimary]} onPress={onPress}>
-            <Text style={[textStyle, styles.buttonText, variation === 'secondary' ? styles.buttonTextSecondary: styles.buttonTextPrimary]}>{label}</Text>
-        </TouchableOpacity>
+        <Button contentStyle={props.contentStyle} labelStyle={styles.buttonLabel} style={styles.button} color="#338af2" buttonColor="#338af2" mode={props.mode} icon={props.icon} onPress={props.onPress}>
+            <Text style={{fontSize: 16}}>{props.label}</Text>
+        </Button>
     )
 }
 
-export default Button
+export default DefaultButton
 
 const styles = StyleSheet.create({
     button: {
         elevation: 8,
-        paddingHorizontal: 16,
         borderRadius: 10,
-        paddingVertical: 12,
         borderRadius: '12px',
         width: '100%',
-        flex: 1
+        flex: 1,
+    },
+    buttonLabel: {
+        paddingVertical: 8, 
+        paddingHorizontal: 16, 
+        fontSize: 24, 
+        letterSpacing: 0, 
+        textTransform: 'none'
     },
     buttonPrimary: {
-        backgroundColor: '#0d1317',
+        backgroundColor: '#338af2',
     },
     buttonSecondary: {
         borderWidth: '1px',
-        borderColor: '#0d1317',
-    },
-    buttonText: {
-        fontSize: 16,
-        fontWeight: "bold",
-        alignSelf: "center",
-    },
-    buttonTextPrimary: {
-        color: "#fff",
-    },
-    buttonTextSecondary: {
-        color: '#0d1317'
+        borderColor: '#338af2',
     }
 })
