@@ -21,62 +21,47 @@ const Login = () => {
     const navigation = useNavigation();
     const logo = require("../../assets/logo.jpg");
     const handleLogin = () => {
-        auth.signInWithEmailAndPassword(email, password).then(credentials => {
+        auth.signInWithEmailAndPassword(email, password).then(() => {
             navigation.navigate("Home");
         }).catch(err => alert(err.message))
     }
 
+    const colors = {
+        primary: '#338af2',
+        secondary: '#19b0ec',
+        neutralGrey: '#89898f'
+    }
+
     return (
-        <KeyboardAvoidingView style={styles.container}>
+        <KeyboardAvoidingView style={styles.login.container}>
             <LinearGradient
-                colors={['#456fe8', '#19b0ec']}
-                style={styles.background}
+                colors={[colors.primary, colors.secondary]}
+                style={styles.login.background}
             />
-            <View style={{
-                shadowColor: "#eee",
-                shadowOffset: {
-                    width: 1,
-                    height: 5,
-                },
-                shadowOpacity: 0.10,
-                shadowRadius: 20.22,
-
-                elevation: 6
-            }}>
-                <Image style={styles.logo} source={logo} />
+            <View style={styles.login.logoWrapper}>
+                <Image style={styles.login.logo} source={logo} accessibilityLabel="Logo" />
             </View>
-            <Text style={{ fontWeight: 'bold', color: 'white', fontSize: 28, marginBottom: 32 }}>Login</Text>
-            <View style={{
-                width:'100%',
-                shadowColor: "#000",
-                shadowOffset: {
-                    width: 0,
-                    height: 1,
-                },
-                shadowOpacity: 0.22,
-                shadowRadius: 10.22,
+            <Text style={styles.login.title}>Login</Text>
+            <View style={styles.login.card}>
+                <TextInput activeUnderlineColor={colors.primary} selectionColor={colors.primary} onChangeText={text => setEmail(text)} value={email} style={styles.login.input} textContentType="username" keyboardType="email-address" label="E-mail"></TextInput>
+                <TextInput activeUnderlineColor={colors.primary} selectionColor={colors.primary} right={<TextInput.Icon color={colors.neutralGrey} name={passwordVisible ? "eye" : "eye-off"} onPress={() => setPasswordVisible(!passwordVisible)} />} onChangeText={text => setPassword(text)} value={password} style={styles.login.input} textContentType="password" secureTextEntry={passwordVisible} label="Password"></TextInput>
 
-                elevation: 6, backgroundColor: 'white', padding: 32, borderRadius: 12
-            }}>
-                <TextInput activeUnderlineColor='#338af2' selectionColor='#338af2' onChangeText={text => setEmail(text)} value={email} style={styles.input} textContentType="username" keyboardType="email-address" label="Digite seu usuário"></TextInput>
-                <TextInput  activeUnderlineColor='#338af2' selectionColor='#338af2' right={<TextInput.Icon color="#89898f" name={passwordVisible ? "eye" : "eye-off"} onPress={() => setPasswordVisible(!passwordVisible)} />} onChangeText={text => setPassword(text)} value={password} style={styles.input} textContentType="password" secureTextEntry={passwordVisible} label="Digite sua senha"></TextInput>
-
-                <View style={styles.buttons}>
-                    <Button contentStyle={{flexDirection: 'row-reverse'}} icon="arrow-right-thin" mode="contained" label="Acesse sua conta" onPress={handleLogin} />
+                <View style={styles.login.buttons}>
+                    <Button contentStyle={{ flexDirection: 'row-reverse' }} icon="arrow-right-thin" mode="contained" label="Login" onPress={handleLogin} />
                 </View>
             </View>
-            <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 32, marginBottom: 24 }}>
-                    <View style={{ flex: 1, height: 1, backgroundColor: '#89898f' }} />
-                    <View>
-                        <Text style={{ textAlign: 'center', marginHorizontal: 12, color: '#89898f' }}>Não tem uma conta?</Text>
-                    </View>
-                    <View style={{ flex: 1, height: 1, backgroundColor: '#89898f' }} />
+            <View style={styles.login.register}>
+                <View style={styles.login.register.line} />
+                <View>
+                    <Text style={styles.login.register.text}>Don't have an account?</Text>
                 </View>
+                <View style={styles.login.register.line} />
+            </View>
 
-                <View style={styles.buttons}>
-                    <Button icon="account-plus-outline" mode="outlined" label="Cadastre-se" variation="buttonSecondary" onPress={() => navigation.navigate("Cadastre-se")} />
-                </View>
-            <Text style={{ marginTop: 24, color: '#338af2', fontSize: 14 }}>Esqueceu sua senha?</Text>
+            <View style={styles.login.buttons}>
+                <Button icon="account-plus-outline" mode="outlined" label="Register" variation="buttonSecondary" onPress={() => navigation.navigate("Cadastre-se")} />
+            </View>
+            <Text style={styles.login.forgotPassword}>Forgot your password?</Text>
             <StatusBar style="auto" />
         </KeyboardAvoidingView>
     )
@@ -84,35 +69,73 @@ const Login = () => {
 
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        paddingHorizontal: 24,
-        backgroundColor: 'white'
+    login: {
+        container: {
+            flex: 1,
+            alignItems: 'center',
+            justifyContent: 'center',
+            paddingHorizontal: 24,
+            backgroundColor: 'white'
+        },
+        title: {
+            fontWeight: 'bold', color: 'white', fontSize: 28, marginBottom: 32
+        },
+        logoWrapper: {
+            shadowColor: "#eee",
+            shadowOffset: {
+                width: 1,
+                height: 5,
+            },
+            shadowOpacity: 0.10,
+            shadowRadius: 20.22,
+            elevation: 6
+        },
+        logo: {
+            width: 60,
+            height: 60,
+            borderRadius: 12,
+            marginBottom: 24,
+        },
+        card: {
+            width: '100%',
+            shadowColor: "#000",
+            shadowOffset: {
+                width: 0,
+                height: 1,
+            },
+            shadowOpacity: 0.22,
+            shadowRadius: 10.22,
+            elevation: 6, backgroundColor: 'white', padding: 32, borderRadius: 12
+        },
+        register: {
+            flexDirection: 'row', alignItems: 'center', marginTop: 32, marginBottom: 24,
+            line: {
+                flex: 1, height: 1, backgroundColor: '#89898f'
+            },
+            text: {
+                textAlign: 'center', marginHorizontal: 12, color: '#89898f'
+            }
+        },
+        background: {
+            position: 'absolute',
+            left: 0,
+            right: 0,
+            top: 0,
+            height: '50%',
+            borderBottomLeftRadius: 12,
+            borderBottomRightRadius: 12,
+        },
+
+        input: {
+            marginBottom: 24,
+            backgroundColor: 'white'
+        },
+        buttons: {
+            flexDirection: 'row',
+            width: '100%',
+        },
+        forgotPassword: { marginTop: 24, color: '#338af2', fontSize: 14 }
     },
-    logo: {
-        width: 60,
-        height: 60,
-        borderRadius: 12,
-        marginBottom: 24,
-    },
-    background: {
-        position: 'absolute',
-        left: 0,
-        right: 0,
-        top: 0,
-        height: '50%',
-        borderBottomLeftRadius: 12,
-        borderBottomRightRadius: 12,
-    },
-    input: {
-        marginBottom: 24,
-        backgroundColor: 'white'
-    },
-    buttons: {
-        flexDirection: 'row',
-        width: '100%',
-    },
+
 })
 export default Login;
